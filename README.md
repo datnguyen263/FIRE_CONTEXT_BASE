@@ -22,5 +22,5 @@ I train this model for detect fire with my data and result in [SSDMobileNet.ipyn
 
 ## Demo
 
-![video demo](img/result_final.mp4)
+[video demo](img/result_final.mp4)
 
