@@ -1,0 +1,2 @@
+item { id:1,name:'picture'}
+item { id:2,name:'screen'}
