@@ -10,11 +10,11 @@ Context-base detector is used to detect fake or real fire with two model [AlexNe
 
 ## AlexNet
 
-I train this model for detect fire with my data and result in [fire_detect_large_data.ipynb](src/fire_detect_large_data.ipynb)
+I train this model for detecting fire with my data and result in [fire_detect_large_data.ipynb](src/fire_detect_large_data.ipynb)
 
 ## SSD Mobilenet V2
 
-I train this model for detect fire with my data and result in [SSDMobileNet.ipynb](src/SSDMobileNet.ipynb)
+I train this model for detecting fire with my data and result in [SSDMobileNet.ipynb](src/SSDMobileNet.ipynb)
 
 ## Devploy to NVIDIA Jetson Nano Developer Kit and test result
 
