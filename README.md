@@ -23,7 +23,6 @@ I train this model for detecting fire with my data and result in [SSDMobileNet.i
 ## Demo
 
 [video demo PC](img/result_PC.mp4)
-[video demo Jetson nano](img/result_jetson.mp4)
 
 [video demo Jetson nano](img/result_jetson.mp4)
 
