@@ -7,6 +7,8 @@ import six
 from object_detection.utils import ops as utils_ops
 from object_detection.utils import label_map_util
 from object_detection.utils.visualization_utils import _get_multiplier_for_color_randomness
+from imutils.video import WebcamVideoStream
+import imutils
 
 STANDARD_COLORS = [
   'AliceBlue', 'Chartreuse', 'Aqua', 'Aquamarine', 'Azure', 'Beige', 'Bisque',
@@ -213,19 +215,22 @@ def main():
     model = tf.saved_model.load("model/ssd_mobilenet_v2/saved_model")
     category_index = label_map_util.create_category_index_from_labelmap("model/ssd_mobilenet_v2/label_map.txt", use_display_name=True)
 
-    live_Camera = cv2.VideoCapture(0)
-    live_Camera.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-    live_Camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-    live_Camera.set(cv2.CAP_PROP_FPS, 30)
+    # live_Camera = cv2.VideoCapture(0)
+    # live_Camera.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+    # live_Camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+    # live_Camera.set(cv2.CAP_PROP_FPS, 30)
     new_frame_time = 0
     prev_frame_time = 0
     overlap = [0,0,0,0]
     check_flame_in_frame = 0
+    vs = WebcamVideoStream(src=0).start()
 
-    # out = cv2.VideoWriter("result.mp4", cv2.VideoWriter_fourcc(*'MP4V'), 10, (640, 480))
-    while(live_Camera.isOpened()):
-        ret, frame = live_Camera.read()
-        
+    out = cv2.VideoWriter("result.mp4", cv2.VideoWriter_fourcc(*'MP4V'), 10, (640, 480))
+    while(True):
+        # ret, frame = live_Camera.read()
+        frame = vs.read()
+	    # frame = imutils.resize(frame, width=640, height=480)
+        frame = cv2.resize(frame, (640, 480))
         locate_of_list_flame = fire_detect(frame, alexnet, fire_cascade)
         locate_of_list_frame = detect_frame(frame, model, category_index)
 
@@ -250,6 +255,7 @@ def main():
                                     overlap = locate_of_flame[1]
                                     if verify_same_box(overlap, locate_of_flame[1], np.abs(5)):
                                         frame = fake_fire(frame, locate_of_flame[1], locate_of_flame[0])
+                                        check = 0
                                     else:
                                         frame = fire(frame, locate_of_flame[1], locate_of_flame[0])
                                         check = 1
@@ -265,6 +271,7 @@ def main():
                                     new_flame = list(locate_of_flame[1])
                                     if verify_same_box(new_flame, list(locate_of_flame[1]), np.abs(5)):
                                         frame = fake_fire(frame, locate_of_flame[1], locate_of_flame[0])
+                                        check = 0
                                     else:
                                         frame = fire(frame, locate_of_flame[1], locate_of_flame[0])
                                     check_flame_in_frame = 0
@@ -285,9 +292,10 @@ def main():
         fps = str(int(fps)) + "FPS"
         cv2.putText(frame, fps, (7, 18), cv2.FONT_HERSHEY_TRIPLEX, 0.7, (0, 0, 0), 1, cv2.LINE_AA)
         cv2.imshow('frame', frame)
-        # out.write(frame)
+        out.write(frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
+            vs.stop()
             break
 
 if __name__ == "__main__":

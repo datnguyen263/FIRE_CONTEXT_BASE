@@ -22,5 +22,5 @@ I train this model for detecting fire with my data and result in [SSDMobileNet.i
 
 ## Demo
 
-[video demo](img/result_final.mp4)
+[video demo PC](img/result_PC.mp4)
 
