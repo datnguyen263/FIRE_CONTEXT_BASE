@@ -81,7 +81,7 @@ def fire_detect(frame, model_alex, model_cascade):
             result.append([[int(ypred[0][0]*100)], [x, y, x+w, y+h]])
     return result
     
-
+# Apply detect using interface with one frame to detect object
 def run_inference_for_single_image(model, image):
   
     image = np.asarray(image)
@@ -106,7 +106,7 @@ def run_inference_for_single_image(model, image):
         output_dict['detection_masks_reframed'] = detection_masks_reframed.numpy()
 
     return output_dict
-
+# draw boxes object
 def visualize_boxes_and_labels_on_image_array(
     boxes,
     classes,
